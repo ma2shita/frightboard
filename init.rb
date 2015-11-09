@@ -24,6 +24,7 @@ end
 require "bundler"
 require "json"
 require "grape"
+require "grape-entity"
 require "sequel"
 require "pry"
 if Me.development? || Me.test?

@@ -1,6 +1,7 @@
 source "https://rubygems.org"
 
 gem "grape", github: "ruby-grape/grape"
+gem "grape-entity", github: "ruby-grape/grape-entity"
 gem "sequel"
 gem "sqlite3"
 
