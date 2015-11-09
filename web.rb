@@ -1,7 +1,7 @@
 require "sinatra/base"
 require "sinatra/reloader"
 
-class WorkingDashboard::Web < Sinatra::Base
+class FrightBoard::Web < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end

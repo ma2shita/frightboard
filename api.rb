@@ -10,7 +10,7 @@ module API
   end
 end
 
-class WorkingDashboard::API < Grape::API
+class FrightBoard::API < Grape::API
   prefix :api
   version :v1, using: :path
   format :json

@@ -65,6 +65,6 @@ class Helper::ItemModel
   end
 end
 
-module WorkingDashboard ; end
+module FrightBoard ; end
 require_relative "web"
 require_relative "api"
