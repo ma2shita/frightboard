@@ -1,2 +1,3 @@
-- spec: `bundle exec rspec` (entrypoint is `spec/spec_helper.rb`)
-- app:  `bundle exec rackup` (entrypoint is `config.ru`)
+- test     : `bundle exec rspec`  (entrypoint is `spec/spec_helper.rb`)
+- App      : `bundle exec rackup` (entrypoint is `config.ru`)
+- Raketask : `bundle exec rake`   (entrypoint is `Rakefile`)
