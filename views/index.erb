@@ -16,7 +16,7 @@
       <td><span data-bind="css: demo_helper_css($data.status), text: status"></span></td>
       <td data-bind="text: created_at"></td>
       <td data-bind="text: updated_at"></td>
-      <td data-bind="text: annotation"></td>
+      <td data-bind="text: JSON.stringify(annotation)"></td>
     </tr>
   </tbody>
 </table>
