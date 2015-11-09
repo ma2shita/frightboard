@@ -65,4 +65,5 @@ class Helper::ItemModel
   end
 end
 
+module WorkingDashboard ; end
 require_relative "api"
