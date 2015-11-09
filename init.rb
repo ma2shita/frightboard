@@ -52,12 +52,14 @@ class Helper::ItemModel
     ds = Item.where(iid: iid)
     if ds.count == 0
       Item.create(iid: iid, status: status, data: data)
+      :created
     else
       # NOTE: WORKAROUND: #update(Hash) で Hashが渡されると where句と認識されてしまうため、serializationが難しい。一つづつ代入することにする
       d = ds.first
       d.status = status
       d.data = data
       d.save
+      :updated
     end
   end
 end

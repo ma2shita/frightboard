@@ -25,4 +25,16 @@ describe Helper::ItemModel do
       its("last.status") { should eq "new" }
     end
   end
+
+  describe "return" do
+    context "Exists row" do
+      subject { described_class.upsert("a", "updated") }
+      it { should eq :updated }
+    end
+
+    context "New row" do
+      subject { described_class.upsert("b", "new") }
+      it { should eq :created }
+    end
+  end
 end
