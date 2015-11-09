@@ -50,5 +50,31 @@ describe WorkingDashboard::API do
       end
       its(:body) { should be_json_as response }
     end
+
+    context "delete" do
+      let(:list) do
+        [
+          {iid: "XXXX1"},
+          {iid: "XXXX2"},
+          {iid: "XXXX3"},
+        ]
+      end
+      before {
+        Item.truncate
+        list.each do |i|
+          Helper::ItemModel.upsert(*i.values)
+        end
+      }
+      subject { delete("/api/v1/statuses", {iid:"XXXX2"}, {}) }
+      its(:status) { should be 202 }
+      let(:response) do
+        {response: "accepted"}
+      end
+      its(:body) { should be_json_as response }
+      it "Inspect DB" do
+        subject
+        expect(Item.count).to eq 2
+      end
+    end
   end
 end

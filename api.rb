@@ -33,4 +33,14 @@ class WorkingDashboard::API < Grape::API
     r = Item.all
     present r, with: ::API::Entities::Status
   end
+
+  params do
+    requires :iid, type: String, desc: "Identify Key (Unique on System)"
+  end
+  delete "/statuses" do
+    d_params = declared(params)
+    Item.where(iid: d_params["iid"]).delete
+    status 202
+    {response: :accepted}
+  end
 end
