@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Helper::Item do
+describe Helper::ItemModel do
   before {
     described_class.upsert("a")
   }
@@ -10,7 +10,7 @@ describe Helper::Item do
       before {
         described_class.upsert("a", "updated")
       }
-      subject { ::Item.where(iid: "a") }
+      subject { Item.where(iid: "a") }
       its(:count)         { should eq 1 }
       its("first.status") { should eq "updated" }
     end
@@ -19,7 +19,7 @@ describe Helper::Item do
       before {
         described_class.upsert("b", "new")
       }
-      subject { ::Item }
+      subject { Item }
       its(:count)        { should eq 2 }
       its("last.status") { should eq "new" }
     end
