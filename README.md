@@ -30,6 +30,8 @@ $ bundle exec demo:data
 
 And see [Dashboard page](http://localhost:9292)
 
+[![Screencast](http://img.youtube.com/vi/M4cLtZjFKMA/0.jpg)](https://youtu.be/M4cLtZjFKMA)
+
 Run
 ---
 
