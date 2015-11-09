@@ -37,28 +37,28 @@ DB.create_table :items do
   primary_key :rno
   String      :iid
   String      :status
-  String      :data
+  Text        :annotation
   Time        :created_at
   Time        :updated_at
 end
 class Item < Sequel::Model
   plugin :timestamps, update_on_create: true
   plugin :serialization
-  serialize_attributes :marshal, :data
+  serialize_attributes :marshal, :annotation
 end
 
 module Helper ; end
 class Helper::ItemModel
-  def self.upsert(iid, status = "unknown", data = {})
+  def self.upsert(iid, status = "unknown", annotation = {})
     ds = Item.where(iid: iid)
     if ds.count == 0
-      Item.create(iid: iid, status: status, data: data)
+      Item.create(iid: iid, status: status, annotation: annotation)
       :created
     else
       # NOTE: WORKAROUND: #update(Hash) で Hashが渡されると where句と認識されてしまうため、serializationが難しい。一つづつ代入することにする
       d = ds.first
       d.status = status
-      d.data = data
+      d.annotation = annotation
       d.save
       :updated
     end

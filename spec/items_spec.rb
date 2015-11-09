@@ -2,9 +2,9 @@ require "spec_helper"
 
 describe Item do
   describe "plugins of Sequel" do
-    context "serialization data column" do
-      subject { described_class.create(data: {a:1}) }
-      its(:data) { should eq({a:1}) }
+    context "serialization annotation column" do
+      subject { described_class.create(annotation: {a:1}) }
+      its(:annotation) { should eq({a:1}) }
     end
 
     context "date columns" do

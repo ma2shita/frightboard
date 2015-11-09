@@ -30,9 +30,9 @@ describe WorkingDashboard::API do
     context "get" do
       let(:list) do
         [
-          {iid: "XXXX1", status: "donwloading",     data: {mac_address:"AA:BB:CC:00:11:01"}.to_json},
-          {iid: "XXXX2", status: "donwloading",     data: {mac_address:"AA:BB:CC:00:11:02"}.to_json},
-          {iid: "XXXX1", status: "running_ansible", data: {mac_address:"AA:BB:CC:00:11:01"}.to_json}, # update
+          {iid: "XXXX1", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json},
+          {iid: "XXXX2", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json},
+          {iid: "XXXX1", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json}, # update
         ]
       end
       before {
@@ -44,8 +44,8 @@ describe WorkingDashboard::API do
       subject { get("/api/v1/statuses") }
       let(:response) do
         [
-          {iid: "XXXX1", status: "running_ansible", data: {mac_address:"AA:BB:CC:00:11:01"}.to_json, created_at: String, updated_at: String},
-          {iid: "XXXX2", status: "donwloading",     data: {mac_address:"AA:BB:CC:00:11:02"}.to_json, created_at: String, updated_at: String},
+          {iid: "XXXX1", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json, created_at: String, updated_at: String},
+          {iid: "XXXX2", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json, created_at: String, updated_at: String},
         ]
       end
       its(:body) { should be_json_as response }
