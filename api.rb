@@ -1,5 +1,3 @@
-require "grape"
-
 module MyAPI
   class Example < Grape::API
     format :json

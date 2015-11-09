@@ -1,2 +1,2 @@
-require File.join(File.dirname(__FILE__), "api")
+require File.join(File.dirname(__FILE__), "init")
 run MyAPI::Example

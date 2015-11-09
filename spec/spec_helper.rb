@@ -1,4 +1,4 @@
-require_relative File.join("..", "api")
+require_relative File.join("..", "init")
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
