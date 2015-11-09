@@ -11,8 +11,11 @@ module WorkingDashboard
     end
     post "/statuses" do
       d_params = declared(params)
-      Helper::ItemModel.upsert(d_params["iid"], d_params["status"], d_params["data"])
-      {response: :ok}
+      r = Helper::ItemModel.upsert(d_params["iid"], d_params["status"], d_params["data"])
+      if r == :updated
+        status 202
+      end
+      {response: r}
     end
   end
 end
