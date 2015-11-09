@@ -5,13 +5,15 @@ task :console do
   Pry.start Pry.toplevel_binding
 end
 
-namespace :debug do
-  desc "Entry data at interval"
-  task :entry do
-    require "securerandom"
+namespace :demo do
+  desc "Entry demo data at interval"
+  task :data do
     loop {
-      sh "curl -w '\n' -X POST -d 'iid=#{SecureRandom.hex[0..9]}' localhost:9292/api/v1/statuses"
-      sleep 15
+      iid = "pc-#{(0..9).to_a.sample}"
+      st = %w(created waiting running blocked terminated).sample
+      sh "curl -X POST -d 'status=#{st}' localhost:9292/api/v1/statuses?iid=#{iid}"
+      puts "" # Line-feed
+      sleep (0..3).to_a.sample
     }
   end
 end
