@@ -58,7 +58,7 @@ class Helper::ItemModel
       # NOTE: WORKAROUND: #update(Hash) で Hashが渡されると where句と認識されてしまうため、serializationが難しい。一つづつ代入することにする
       d = ds.first
       d.status = status
-      d.annotation = annotation
+      d.annotation = annotation if annotation.present?
       d.save
       :updated
     end

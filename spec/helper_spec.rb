@@ -37,4 +37,28 @@ describe Helper::ItemModel do
       it { should eq :created }
     end
   end
+
+  describe "Ignore annotation column when input empty" do
+    context "Update" do
+      before {
+        described_class.upsert("id1", nil, {memo:"test"}.to_json)
+      }
+      subject {
+        described_class.upsert("id1", nil, {comment:"foo"}.to_json)
+        Item.where(iid: "id1")
+      }
+      its("first.annotation") { should eq({"comment":"foo"}.to_json) }
+    end
+
+    context "Keep prev value" do
+      before {
+        described_class.upsert("id1", nil, {memo:"test"}.to_json)
+      }
+      subject {
+        described_class.upsert("id1", nil, nil)
+        Item.where(iid: "id1")
+      }
+      its("first.annotation") { should eq({"memo":"test"}.to_json) }
+    end
+  end
 end
