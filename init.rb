@@ -46,4 +46,22 @@ class Item < Sequel::Model
   serialize_attributes :marshal, :data
 end
 
+module Helper
+  module Item
+    extend self
+    def upsert(iid, status = "unknown", data = {})
+      ds = ::Item.where(iid: iid)
+      if ds.count == 0
+        ::Item.create(iid: iid, status: status, data: data)
+      else
+        # NOTE: WORKAROUND: #update(Hash) で Hashが渡されると where句と認識されてしまうため、serializationが難しい。一つづつ代入することにする
+        d = ds.first
+        d.status = status
+        d.data = data
+        d.save
+      end
+    end
+  end
+end
+
 require_relative "api"
