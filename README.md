@@ -1,0 +1,2 @@
+- spec: `bundle exec rspec` (entrypoint is `spec/spec_helper.rb`)
+- app:  `bundle exec rackup` (entrypoint is `config.ru`)
