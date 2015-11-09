@@ -5,6 +5,9 @@ gem "grape-entity", github: "ruby-grape/grape-entity"
 gem "sequel"
 gem "sqlite3"
 
+gem "sinatra"
+gem "sinatra-contrib"
+
 gem "pry"
 
 group :development, :test do

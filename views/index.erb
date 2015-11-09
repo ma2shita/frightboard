@@ -1,0 +1,37 @@
+<table>
+  <thead>
+    <tr>
+    </tr>
+  </thead>
+  <tbody data-bind="foreach: items">
+    <tr>
+      <td data-bind="text: iid"></td>
+      <td data-bind="text: status"></td>
+      <td data-bind="text: created_at"></td>
+      <td data-bind="text: updated_at"></td>
+      <td data-bind="text: data"></td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+function koViewModel() {
+    var self = this;
+	self.items = ko.observableArray();
+}
+
+// ENTRYPOINT //
+$(function(){
+	var vm = new koViewModel();
+	ko.applyBindings(vm);
+
+	setInterval(function() {
+		$.get("/api/v1/statuses")
+		.done(function(data) {
+			vm.items(data);
+		}).fail(function(err) {
+			console.debug(err);
+		});
+	}, 1000);
+});
+</script>
