@@ -1,6 +1,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
+      <th>#</th>
       <th>IID</th>
       <th>STATUS</th>
       <th>EntryTime</th>
@@ -10,6 +11,7 @@
   </thead>
   <tbody data-bind="foreach: items">
     <tr>
+      <td data-bind="text: $index()+1"></td>
       <td data-bind="text: iid"></td>
       <td data-bind="text: status"></td>
       <td data-bind="text: created_at"></td>
