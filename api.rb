@@ -20,11 +20,11 @@ class WorkingDashboard::API < Grape::API
     optional :status,     type: String, default: "updated", desc: "IID's latest status"
     optional :annotation, type: JSON,                       desc: "Annotate data"
   end
-  post "/statuses" do
+  post "/statuses" do # Create shared with Update (PUT does not implement)
     d_params = declared(params)
     r = Helper::ItemModel.upsert(d_params["iid"], d_params["status"], d_params["annotation"])
     if r == :updated
-      status 202
+      status 200
     end
     {response: r}
   end

@@ -20,7 +20,7 @@ describe WorkingDashboard::API do
         Helper::ItemModel.upsert("i1")
       }
       subject { post("/api/v1/statuses", {iid:"i1"}, {}) }
-      its(:status) { should be 202 }
+      its(:status) { should be 200 }
       let(:response) do
         {response: "updated"}
       end
