@@ -2,6 +2,7 @@ require "spec_helper"
 
 describe Helper::ItemModel do
   before {
+    Item.truncate
     described_class.upsert("a")
   }
 
