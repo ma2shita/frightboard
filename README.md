@@ -1,8 +1,10 @@
 FrightBoard for Working dashboard
 =================================
 
-Working status dashboard system.
+Working status dashboard SKELTON system.
 CRUD operations by REST API and WEB Dashboard using Reactive.
+
+No Authentication, No Data persistence, You gatta implement it!
 
 _F"r"ight means "made by Ruby"_
 
