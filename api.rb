@@ -1,3 +1,15 @@
+module API
+  module Entities
+    class Status < Grape::Entity
+      expose :iid
+      expose :status
+      expose :created_at
+      expose :updated_at
+      expose :data
+    end
+  end
+end
+
 module WorkingDashboard
   class API < Grape::API
     prefix :api
@@ -16,6 +28,11 @@ module WorkingDashboard
         status 202
       end
       {response: r}
+    end
+
+    get "/statuses" do
+      r = Item.all
+      present r, with: ::API::Entities::Status
     end
   end
 end
