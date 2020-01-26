@@ -18,3 +18,37 @@ namespace :demo do
   end
 end
 
+# http://obfuscurity.com/2011/11/Sequel-Migrations-on-Heroku
+namespace :db do
+  require "sequel"
+  namespace :migrate do
+    Sequel.extension :migration
+
+    desc "Perform migration reset (full erase and migration up)"
+    task :reset do
+      Sequel::Migrator.run(DB, "migrations", :target => 0)
+      Sequel::Migrator.run(DB, "migrations")
+      puts "<= sq:migrate:reset executed"
+    end
+
+    desc "Perform migration up/down to DB_VERSION"
+    task :to do
+      db_version = ENV['DB_VERSION'].to_i
+      raise "No DB_VERSION was provided" if db_version.nil?
+      Sequel::Migrator.run(DB, "migrations", :target => db_version)
+      puts "<= sq:migrate:to db_version=[#{db_version}] executed"
+    end
+
+    desc "Perform migration up to latest migration available"
+    task :up do
+      Sequel::Migrator.run(DB, "migrations")
+      puts "<= sq:migrate:up executed"
+    end
+
+    desc "Perform migration down (erase all data)"
+    task :down do
+      Sequel::Migrator.run(DB, "migrations", :target => 0)
+      puts "<= sq:migrate:down executed"
+    end
+  end
+end

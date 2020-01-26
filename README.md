@@ -2,48 +2,63 @@ FrightBoard for Working dashboard
 =================================
 
 Working status dashboard SKELTON system.
-CRUD operations by REST API and WEB Dashboard using Reactive.
+CRUD operations by REST API and WEB Dashboard using (Semi-)Reactive.
 
 No Authentication, No Data persistence, You gatta implement it!
 
 _F"r"ight means "made by Ruby"_
 
-Install
--------
+Install and Run
+---------------
 
 Git clone and then run as below.
 
 ```
+$ git clone https://github.com/ma2shita/frightboard.git CLONE_DIR
 $ cd CLONE_DIR
-(optional) $ bundle config --local path vendor/bundle
 $ bundle install
+$ bundle exec rackup -p 5000
+```
+
+* Bundler's path can be specified. (e.g. `bundle config --local path vendor/bundle`)
+* `DATABASE_URL` can be specified, use in-memory when not defined it. (e.g. `DATABASE_URL='sqlite://data.db'`)
+* Can use `heroku local` instead of `rackup`.
+
+### with PostgreSQL on local
+
+```
+$ sudo apt install postgresql-12 libpq-dev
+$ sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D db/
+$ sudo -u postgres /usr/lib/postgresql/12/bin/postgres -D db/
+```
+
+```
+$ DATABASE_URL='postgresql://postgres@localhost:5432' DB_VERSION=XXX bundle exec rake db:migrate:to
+$ DATABASE_URL='postgresql://postgres@localhost:5432' bundle exec rackup -p 5000
 ```
 
 Demonstration
 -------------
 
-Install and then run as below;
+Run on other terminal.
 
 ```
-$ bundle exec rackup -p 5000
-(Or ) $ heroku local
- and Other Terminal...
 $ bundle exec rake demo:data
 ```
 
-And see Dashboard page (http://localhost:5050)
+And then, see the dashboard page (http://localhost:5000)
 
 [![Screencast](http://img.youtube.com/vi/M4cLtZjFKMA/0.jpg)](https://youtu.be/M4cLtZjFKMA)
 
 Run
 ---
 
-- test     : `bundle exec rspec`  (entrypoint is `spec/spec_helper.rb`)
-- App      : `bundle exec rackup` (entrypoint is `config.ru`)
-- Raketask : `bundle exec rake`   (entrypoint is `Rakefile`)
+- App      : `bundle exec rackup`    (entrypoint is `config.ru`)
+- Raketask : `bundle exec rake`      (entrypoint is `Rakefile`)
+- Test     : `bundle exec rake spec` (entrypoint is `spec/spec_helper.rb`)
 
-APIs
-----
+API Reference
+=============
 
 ### `POST /api/v1/statuses` ###
 
@@ -105,6 +120,32 @@ License
 -------
 
 MIT
+
+
+Deploy to Heroku
+================
+
+Init;
+
+```
+$ cd frightboard
+$ heroku git:remote -a HEROKU_APP_NAME
+$ heroku addons:create heroku-postgresql:hobby-dev [--version 12]
+```
+
+Deploy;
+
+```
+$ heroku git push heroku master
+```
+
+DB migrate;
+
+```
+(Deploy and then)
+$ heroku config:set DB_VERSION=XXX
+$ heroku run rake db:migrate:to
+```
 
 
 Inside of FrightBoard
