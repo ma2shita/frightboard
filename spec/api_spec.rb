@@ -25,8 +25,8 @@ describe FrightBoard::API do
         Board.truncate
       }
       subject { post("/api/v1") }
-      its(:status) { should be 201 }
-      its(:header) { is_expected.to include('Location' => match('^/api/v1/[0-9]+')) }
+      its(:status) { should be 302 }
+      its(:header) { is_expected.to include('Location' => match('^/[0-9]+')) }
       it "Inspect DB" do
         subject
         expect(Board.count).to eq 1

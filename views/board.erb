@@ -1,0 +1,63 @@
+<h2>Board ID: <span id="board_id"><%= @board_id %></span></h2>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>IID</th>
+      <th>STATUS</th>
+      <th>EntryTime</th>
+      <th>Updated</th>
+      <th>Annotation</th>
+    </tr>
+  </thead>
+  <tbody data-bind="foreach: items">
+    <tr>
+      <td data-bind="text: $index()+1"></td>
+      <td data-bind="text: iid"></td>
+      <td><span data-bind="css: demo_helper_css($data.status), text: status"></span></td>
+      <td data-bind="text: created_at"></td>
+      <td data-bind="text: updated_at"></td>
+      <td data-bind="text: JSON.stringify(annotation)"></td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+/* Markup status css class using Bootstrap for demo:data */
+function demo_helper_css(status) {
+	var demo_status_list = {
+		created:    "label label-primary",
+		waiting:    "label label-info",
+		running:    "label label-success",
+		blocked:    "label label-danger",
+		terminated: "label label-default"
+	};
+	try {
+		var r = demo_status_list[status];
+	} catch(e) {
+		var r = "";
+	}
+	return r;
+}
+
+function koViewModel() {
+    var self = this;
+	self.items = ko.observableArray();
+}
+
+// ENTRYPOINT //
+$(function(){
+	var vm = new koViewModel();
+	ko.applyBindings(vm);
+
+	setInterval(function() {
+		$.get("/api/v1/<%= @board_id %>")
+		.done(function(data) {
+			vm.items(data);
+		}).fail(function(err) {
+			console.debug(err);
+		});
+	}, 3000);
+});
+</script>
