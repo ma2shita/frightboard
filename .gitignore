@@ -3,3 +3,4 @@ vendor/bundle/*
 .bundle/
 .ruby-version
 db/
+.byebug_history

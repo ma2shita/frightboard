@@ -33,5 +33,5 @@ DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://')
 if Me.development? || Me.test?
   require "pry-byebug"
   require 'logger'
-  DB.loggers << Logger.new($stdout)
+  DB.loggers << Logger.new($stderr)
 end

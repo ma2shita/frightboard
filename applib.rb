@@ -1,14 +1,27 @@
 # Dynamic create for On memory by SQLite
 if DB.database_type == :sqlite && DB.opts[:database].empty?
+  DB.create_table :boards do
+    primary_key :rno
+    String :board_id
+    Time   :created_at
+    add_index [:board_id], unique: true
+  end
   DB.create_table :items do
     primary_key :rno
-    String      :iid
-    String      :status
-    Text        :annotation
-    Time        :created_at
-    Time        :updated_at
+    String :board_id
+    String :iid
+    String :status
+    Text   :annotation
+    Time   :created_at
+    Time   :updated_at
+    add_index [:board_id, :iid], unique: true
   end
 end
+
+class Board < Sequel::Model
+  plugin :timestamps
+end
+Board.create(board_id: "b1")
 
 class Item < Sequel::Model
   plugin :timestamps, update_on_create: true
@@ -18,10 +31,11 @@ end
 
 module Helper ; end
 class Helper::ItemModel
-  def self.upsert(iid, status = "unknown", annotation = {})
-    ds = Item.where(iid: iid)
+  def self.upsert(board_id, iid, status = "unknown", annotation = {})
+    raise if Board.where(board_id: board_id).empty?
+    ds = Item.where(board_id: board_id, iid: iid)
     if ds.count == 0
-      Item.create(iid: iid, status: status, annotation: annotation)
+      Item.create(board_id: board_id, iid: iid, status: status, annotation: annotation)
       :created
     else
       # NOTE: WORKAROUND: #update(Hash) で Hashが渡されると where句と認識されてしまうため、serializationが難しい。一つづつ代入することにする

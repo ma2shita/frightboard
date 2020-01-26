@@ -1,4 +1,5 @@
 require_relative File.join("..", "init")
+require_relative File.join("..", "applib")
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

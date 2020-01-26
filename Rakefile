@@ -2,6 +2,7 @@ require File.join(File.dirname(__FILE__), "init")
 
 desc "Open console w/ Pry"
 task :console do
+  require File.join(File.dirname(__FILE__), "applib")
   Pry.start Pry.toplevel_binding
 end
 
