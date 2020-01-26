@@ -1,4 +1,4 @@
-require_relative "init"
+require File.join(File.dirname(__FILE__), "init")
 
 desc "Open console w/ Pry"
 task :console do
@@ -11,7 +11,7 @@ namespace :demo do
     loop {
       iid = "pc-#{(0..9).to_a.sample}"
       st = %w(created waiting running blocked terminated).sample
-      sh "curl -X POST -d 'status=#{st}' localhost:9292/api/v1/statuses?iid=#{iid}"
+      sh "curl -X POST -d 'status=#{st}' localhost:5000/api/v1/statuses?iid=#{iid}"
       puts "" # Line-feed
       sleep (0..3).to_a.sample
     }

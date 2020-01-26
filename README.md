@@ -11,24 +11,27 @@ _F"r"ight means "made by Ruby"_
 Install
 -------
 
-Git clone and
+Git clone and then run as below.
 
 ```
-$ bundle install [--path vendor/bundle]
+$ cd CLONE_DIR
+(optional) $ bundle config --local path vendor/bundle
+$ bundle install
 ```
 
 Demonstration
 -------------
 
-Install and run as below;
+Install and then run as below;
 
 ```
-$ bundle exec rackup
+$ bundle exec rackup -p 5000
+(Or ) $ heroku local
  and Other Terminal...
-$ bundle exec demo:data
+$ bundle exec rake demo:data
 ```
 
-And see [Dashboard page](http://localhost:9292)
+And see Dashboard page (http://localhost:5050)
 
 [![Screencast](http://img.youtube.com/vi/M4cLtZjFKMA/0.jpg)](https://youtu.be/M4cLtZjFKMA)
 

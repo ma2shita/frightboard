@@ -1,17 +1,19 @@
 source "https://rubygems.org"
+ruby "~> 2.5.0"
+
+gem "rake"
+
+gem "rack"
+gem "sinatra"
+gem "sinatra-contrib"
 
 gem "grape", github: "ruby-grape/grape"
 gem "grape-entity", github: "ruby-grape/grape-entity"
 gem "sequel"
-gem "sqlite3"
-
-gem "sinatra"
-gem "sinatra-contrib"
-
-gem "pry"
 
 group :development, :test do
-  gem "thin"
+  gem "sqlite3"
+  gem "pry"
   gem "pry-byebug"
 end
 
