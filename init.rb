@@ -26,14 +26,14 @@ require "json"
 require "grape"
 require "grape-entity"
 require "sequel"
-require "pry"
-DB = if Me.development? || Me.test?
+
+# e.g.) DATABASE_URL="postgres://user:password@localhost/my_db"
+DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://')
+
+if Me.development? || Me.test?
   require "pry-byebug"
   require 'logger'
-  Sequel.sqlite(loggers: [Logger.new($stdout)])
-else
-  # e.g.) DATABASE_URL="postgres://user:password@localhost/my_db"
-  Sequel.connect(ENV['DATABASE_URL'])
+  DB.loggers << Logger.new($stdout)
 end
 
 DB.create_table :items do

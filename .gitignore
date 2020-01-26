@@ -3,3 +3,4 @@ Gemfile.lock
 .rspec
 .bundle/
 .ruby-version
+*.db
