@@ -12,6 +12,8 @@ gem "grape-entity", github: "ruby-grape/grape-entity"
 gem "sequel"
 gem "pg"
 
+gem "chiliflake", github: "ma2shita/chiliflake"
+
 group :development, :test do
   gem "sqlite3"
   gem "pry"

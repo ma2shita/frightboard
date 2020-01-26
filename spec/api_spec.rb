@@ -3,6 +3,37 @@ require "spec_helper"
 describe FrightBoard::API do
   def app ; described_class ; end # required
 
+  describe "/" do
+    context "get list" do
+      before {
+        Board.truncate
+        Board.create(board_id: "BOARD_ID1")
+        Board.create(board_id: "BOARD_ID2")
+      }
+      subject { get("/api/v1") }
+      let(:response) do
+        [
+          {board_id: "BOARD_ID2", created_at: String},
+          {board_id: "BOARD_ID1", created_at: String},
+        ]
+      end
+      its(:body) { should be_json_as response }
+    end
+
+    context "create and redirect" do
+      before {
+        Board.truncate
+      }
+      subject { post("/api/v1") }
+      its(:status) { should be 201 }
+      its(:header) { is_expected.to include('Location' => match('^/api/v1/[0-9]+')) }
+      it "Inspect DB" do
+        subject
+        expect(Board.count).to eq 1
+      end
+    end
+  end
+
   describe "/:BOARD_ID1" do
     context "not exists" do
       before {

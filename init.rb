@@ -26,6 +26,7 @@ require "json"
 require "grape"
 require "grape-entity"
 require "sequel"
+require "chiliflake"
 
 # e.g.) DATABASE_URL="postgres://user:password@localhost/my_db"
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://')

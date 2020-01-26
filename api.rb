@@ -1,5 +1,9 @@
 module API
   module Entities
+    class Board < Grape::Entity
+      expose :board_id
+      expose :created_at
+    end
     class Status < Grape::Entity
       expose :board_id
       expose :iid
@@ -17,6 +21,20 @@ class FrightBoard::API < Grape::API
   format :json
   rescue_from RuntimeError do
     error!({error: "Board Not Found"}, 404)
+  end
+
+  get do
+    r = Board.order(Sequel.desc(:created_at)).all
+    present r, with: API::Entities::Board
+  end
+
+  post do
+    board_id = ChiliFlake.new(1).generate
+    Board.create(board_id: board_id)
+    path = "#{env['PATH_INFO']}/#{board_id}"
+    status 201
+    header 'Location', path
+    {redirect_to: path}
   end
 
   namespace ':board_id' do

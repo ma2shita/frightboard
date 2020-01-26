@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/ma2shita/chiliflake.git
+  revision: b6a2f69df8ba3d96b92974db9eee6fcf0b3aa4bd
+  specs:
+    chiliflake (1.0.0)
+
+GIT
   remote: https://github.com/ruby-grape/grape-entity.git
   revision: abbfcc998457924f6691cda7bd762c121e816ec6
   specs:
@@ -124,6 +130,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  chiliflake!
   grape!
   grape-entity!
   pg

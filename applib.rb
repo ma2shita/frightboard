@@ -21,7 +21,6 @@ end
 class Board < Sequel::Model
   plugin :timestamps
 end
-Board.create(board_id: "b1")
 
 class Item < Sequel::Model
   plugin :timestamps, update_on_create: true
