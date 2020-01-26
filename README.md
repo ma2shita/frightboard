@@ -131,6 +131,7 @@ Init;
 $ cd frightboard
 $ heroku git:remote -a HEROKU_APP_NAME
 $ heroku addons:create heroku-postgresql:hobby-dev [--version 12]
+$ heroku config:add TZ=Asia/Tokyo
 ```
 
 Deploy;
@@ -145,6 +146,7 @@ DB migrate;
 (Deploy and then)
 $ heroku config:set DB_VERSION=XXX
 $ heroku run rake db:migrate:to
+$ heroku restart
 ```
 
 
