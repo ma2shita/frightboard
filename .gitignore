@@ -1,5 +1,4 @@
 vendor/bundle/*
-Gemfile.lock
 .rspec
 .bundle/
 .ruby-version
