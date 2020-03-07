@@ -52,9 +52,9 @@ Show
 
 <div class="row collapse" id="api-reference">
 <div class="col-md-12">
-<h4>GET <%= @api_endpoint %></h4>
+<h4>GET <%= @api_endpoint_uri %></h4>
 <pre>
-$ curl -s <%= @api_endpoint %> | jq .
+$ curl -s <%= @api_endpoint_uri %> | jq .
 [
   {
     "board_id": "<%= @board_id %>",
@@ -77,7 +77,7 @@ $ curl -s <%= @api_endpoint %> | jq .
 ]
 </pre>
 
-<h4>POST <%= @api_endpoint %></h4>
+<h4>POST <%= @api_endpoint_uri %></h4>
 <p>Create and Update</p>
 <ul>
   <li><code>iid</code>(*): </li>
@@ -86,25 +86,25 @@ $ curl -s <%= @api_endpoint %> | jq .
 </ul>
 <pre>
 ## Simple;
-$ curl -X POST -d 'iid=pc01' <%= @api_endpoint %>
+$ curl -X POST -d 'iid=pc01' <%= @api_endpoint_uri %>
 
 ## Params;
-$ curl -X POST -d 'iid=pc01' -d 'status=running' -d 'annotation={"asset_id":"A0123"}' <%= @api_endpoint %>
+$ curl -X POST -d 'iid=pc01' -d 'status=running' -d 'annotation={"asset_id":"A0123"}' <%= @api_endpoint_uri %>
 
 ## Using QueryString
-$ curl -X POST -d 'status=running' '<%= @api_endpoint %>?iid=pc01'
+$ curl -X POST -d 'status=running' '<%= @api_endpoint_uri %>?iid=pc01'
 </pre>
 
-<h4>DELETE <%= @api_endpoint %></h4>
+<h4>DELETE <%= @api_endpoint_uri %></h4>
 <ul>
   <li><code>iid</code>(*): </li>
 </ul>
 <pre>
 ## Simple;
-$ curl -X DELETE -d 'iid=pc01' <%= @api_endpoint %>
+$ curl -X DELETE -d 'iid=pc01' <%= @api_endpoint_uri %>
 
 ## Using QueryString
-$ curl -X DELETE '<%= @api_endpoint %>?iid=pc01'
+$ curl -X DELETE '<%= @api_endpoint_uri %>?iid=pc01'
 </pre>
 </div>
 </div>
@@ -138,7 +138,7 @@ $(function(){
 	ko.applyBindings(vm);
 
 	setInterval(function() {
-		$.get("/api/v1/<%= @board_id %>")
+		$.get("<%= @api_endpoint_path %>")
 		.done(function(data) {
 			vm.items(data);
 		}).fail(function(err) {

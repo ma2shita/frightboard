@@ -1,5 +1,7 @@
 require "sinatra/base"
-require "sinatra/reloader"
+if Me.development?
+  require "sinatra/reloader"
+end
 
 class FrightBoard::Web < Sinatra::Base
   configure :development do
@@ -11,11 +13,11 @@ class FrightBoard::Web < Sinatra::Base
   end
 
   get "/:board_id" do
-    p params[:board_id]
     raise Sinatra::NotFound if Board.where(board_id: params[:board_id]).empty?
     @board_id = params[:board_id]
-    scheme = (request.env['SERVER_PORT'] == "443") ? 'https' : 'http'
-    @api_endpoint = "#{scheme}://#{request.env['HTTP_HOST']}/api/v1/#{@board_id}"
+    scheme = request.secure? ? 'https' : 'http'
+    @api_endpoint_path = "/api/v1/#{@board_id}"
+    @api_endpoint_uri = "#{scheme}://#{request.env['HTTP_HOST']}#{@api_endpoint_path}"
     erb :board
   end
 end
