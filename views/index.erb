@@ -31,7 +31,7 @@ $(function(){
 	var vm = new koViewModel();
 	ko.applyBindings(vm);
 
-	$.get("/api/v1/")
+	$.get("/api/v1")
 	.done(function(data) {
 		vm.items(data);
 	}).fail(function(err) {

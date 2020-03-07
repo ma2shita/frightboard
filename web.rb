@@ -14,6 +14,9 @@ class FrightBoard::Web < Sinatra::Base
     p params[:board_id]
     raise Sinatra::NotFound if Board.where(board_id: params[:board_id]).empty?
     @board_id = params[:board_id]
+    scheme = "http"
+    p request # for debug
+    @api_endpoint = "#{scheme}://#{request.env['HTTP_HOST']}/api/v1/#{@board_id}"
     erb :board
   end
 end

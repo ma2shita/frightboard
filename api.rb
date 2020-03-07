@@ -29,10 +29,7 @@ class FrightBoard::API < Grape::API
   post do
     board_id = ChiliFlake.new(1).generate
     Board.create(board_id: board_id)
-    api_endpoint = "#{env['PATH_INFO']}/#{board_id}"
-    web_entrypoint = "/#{board_id}"
-    redirect web_entrypoint
-    {board_id: board_id, api_endpoint: api_endpoint, redirect_to: web_entrypoint}
+    redirect "/#{board_id}"
   end
 
   namespace ':board_id' do

@@ -1,13 +1,24 @@
+<div class="row">
+<div class="col-md-12">
 <h2>Board ID: <span id="board_id"><%= @board_id %></span></h2>
+</div>
+</div>
 
-<table class="table table-striped">
+<style>
+#main{font-size:2rem;}
+</style>
+
+<div class="row">
+<div class="col-md-12">
+<a href="../">Frightboard Index</a>
+<table class="table table-striped" id="main">
   <thead>
     <tr>
       <th>#</th>
       <th>IID</th>
       <th>STATUS</th>
-      <th>EntryTime</th>
-      <th>Updated</th>
+      <th>Created at</th>
+      <th>Updated at</th>
       <th>Annotation</th>
     </tr>
   </thead>
@@ -22,10 +33,81 @@
     </tr>
   </tbody>
 </table>
+</div>
+</div>
 
-<p>
+<div class="row">
+<div class="col-md-12">
 <a href="../">Frightboard Index</a>
-</p>
+</div>
+</div>
+
+<hr>
+
+<h3>API Reference</h3>
+
+<button class="btn" type="button" data-toggle="collapse" data-target="#api-reference" aria-expanded="false" aria-controls="api-reference">
+Show
+</button>
+
+<div class="row collapse" id="api-reference">
+<div class="col-md-12">
+<h4>GET <%= @api_endpoint %></h4>
+<pre>
+$ curl -s <%= @api_endpoint %> | jq .
+[
+  {
+    "board_id": "<%= @board_id %>",
+    "iid": "pc01",
+    "status": "completed",
+    "created_at": "2015-11-10 00:08:28 +0900",
+    "updated_at": "2015-11-10 00:10:11 +0900",
+    "annotation": null
+  },
+  {
+    "board_id": "<%= @board_id %>",
+    "iid": "group/pc02",
+    "status": "running",
+    "created_at": "2015-11-10 00:40:03 +0900",
+    "updated_at": "2015-11-10 00:49:43 +0900",
+    "annotation": {
+        "asset_id": "A0123"
+    }
+  }
+]
+</pre>
+
+<h4>POST <%= @api_endpoint %></h4>
+<p>Create and Update</p>
+<ul>
+  <li><code>iid</code>(*): </li>
+  <li><code>status</code>: </li>
+  <li><code>annotation</code>: </li>
+</ul>
+<pre>
+## Simple;
+$ curl -X POST -d 'iid=pc01' <%= @api_endpoint %>
+
+## Params;
+$ curl -X POST -d 'iid=pc01' -d 'status=running' -d 'annotation={"asset_id":"A0123"}' <%= @api_endpoint %>
+
+## Using QueryString
+$ curl -X POST -d 'status=running' '<%= @api_endpoint %>?iid=pc01'
+</pre>
+
+<h4>DELETE <%= @api_endpoint %></h4>
+<ul>
+  <li><code>iid</code>(*): </li>
+</ul>
+<pre>
+## Simple;
+$ curl -X DELETE -d 'iid=pc01' <%= @api_endpoint %>
+
+## Using QueryString
+$ curl -X DELETE '<%= @api_endpoint %>?iid=pc01'
+</pre>
+</div>
+</div>
 
 <script>
 /* Markup status css class using Bootstrap for demo:data */

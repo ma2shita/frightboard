@@ -50,45 +50,82 @@ And then, see the dashboard page (http://localhost:5000)
 
 [![Screencast](http://img.youtube.com/vi/M4cLtZjFKMA/0.jpg)](https://youtu.be/M4cLtZjFKMA)
 
-Run
----
+Run tasks
+---------
 
-- App      : `bundle exec rackup`    (entrypoint is `config.ru`)
-- Raketask : `bundle exec rake`      (entrypoint is `Rakefile`)
-- Test     : `bundle exec rake spec` (entrypoint is `spec/spec_helper.rb`)
+- Run on local : `bundle exec rackup` (entrypoint is `config.ru`)
+- Raketask     : `bundle exec rake`   (entrypoint is `Rakefile`)
+- Test         : `bundle exec rspec`  (entrypoint is `spec/spec_helper.rb`)
 
 API Reference
 =============
 
-### `POST /api/v1/statuses` ###
+### `POST /api/v1` ###
+
+Create new BOARD;
+
+```
+$ curl -X POST -d '' http://localhost:5000/api/v1
+"An alternate resource is located at /1236251166782787585."
+```
+
+### `GET /api/v1/BOARD_ID` ###
+
+Board list;
+
+```
+$ curl -s localhost:5000/api/v1 | jq .
+[
+  {
+    "board_id": "1236252956626522113",
+    "created_at": "2020-03-07 20:30:47 +0900"
+  },
+  {
+    "board_id": "1236251166782787585",
+    "created_at": "2020-03-07 20:23:41 +0900"
+  }
+]
+```
+
+### `POST /api/v1/BOARD_ID` ###
 
 New registration;
 
 ```
-$ curl -X POST -d "status=running" "localhost:9292/api/v1/statuses?iid=pc01"
+## Simple;
+$ curl -X POST -d 'iid=pc01' http://localhost:5000/api/v1/1236251166782787585
 {"response":"created"}
+
+## Params;
+$ curl -X POST -d 'iid=pc01' -d 'status=running' -d 'annotation={"asset_id":"A0123"}' http://localhost:5000/api/v1/1236251166782787585
+
+## Using QueryString
+$ curl -X POST -d 'status=running' 'http://localhost:5000/api/v1/1236251166782787585?iid=pc01'
 ```
 
-Exists "pc01" (= update);
+In case of exists iid (= update);
 
 ```
-$ curl -X POST -d "status=completed" "localhost:9292/api/v1/statuses?iid=pc01"
+$ curl -X POST -d "status=completed" "localhost:5000/api/v1/statuses?iid=pc01"
 {"response":"updated"}
 ```
 
-Entry with Annotation (JSON format);
+Entry with Annotation (JSON is available);
 
 ```
-$ curl -X POST -d "status=pending" -d 'annotation={"comment":"pc of ma2shita"}' "localhost:9292/api/v1/statuses?iid=pc01"
+$ curl -X POST -d "status=pending" -d 'annotation={"asset_id":"A0123"}' "localhost:5000/api/v1/statuses?iid=pc01"
 {"response":"updated"}
 ```
 
-### `GET /api/v1/statuses` ###
+### `GET /api/v1/BOARD_ID` ###
+
+Item list;
 
 ```
-$ curl localhost:9292/api/v1/statuses
+$ curl -s localhost:5000/api/v1/1236230866460479489 | jq .
 [
   {
+    "board_id": "1236251166782787585",
     "iid": "pc01",
     "status": "completed",
     "created_at": "2015-11-10 00:08:28 +0900",
@@ -96,12 +133,13 @@ $ curl localhost:9292/api/v1/statuses
     "annotation": null
   },
   {
+    "board_id": "1236251166782787585",
     "iid": "group/pc02",
     "status": "running",
     "created_at": "2015-11-10 00:40:03 +0900",
     "updated_at": "2015-11-10 00:49:43 +0900",
     "annotation": {
-      "comment": "pc of ma2shita"
+        "asset_id": "A0123"
     }
   }
 ]
@@ -109,10 +147,10 @@ $ curl localhost:9292/api/v1/statuses
 
 _formatted by jq_
 
-### `DELETE /api/v1/statuses` ###
+### `DELETE /api/v1/BOARD_ID` ###
 
 ```
-$ curl -X DELETE "localhost:9292/api/v1/statuses?iid=pc01"`
+$ curl -X DELETE "localhost:5000/api/v1/1236230866460479489?iid=pc01"`
 {"response":"accepted"}
 ```
 
