@@ -120,7 +120,7 @@ describe FrightBoard::API do
           Helper::ItemModel.upsert(*i.values)
         end
       }
-      subject { delete("/api/v1/BOARD_ID1", {iid:"XXXX2"}, {}) }
+      subject { delete("/api/v1/BOARD_ID1/XXXX2", {}, {}) }
       its(:status) { should be 202 }
       let(:response) do
         {response: "accepted"}
