@@ -5,7 +5,7 @@
 </div>
 
 <style>
-#main{font-size:2rem;}
+#main{font-size:1.5rem;}
 </style>
 
 <div class="row">
@@ -46,7 +46,7 @@
 
 <h3>API Reference</h3>
 
-<button class="btn" type="button" data-toggle="collapse" data-target="#api-reference" aria-expanded="false" aria-controls="api-reference">
+<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#api-reference" aria-expanded="false" aria-controls="api-reference">
 Show
 </button>
 
@@ -113,11 +113,12 @@ $ curl -X DELETE '<%= @api_endpoint_uri %>?iid=pc01'
 /* Markup status css class using Bootstrap for demo:data */
 function demo_helper_css(status) {
 	var demo_status_list = {
-		created:    "label label-primary",
-		waiting:    "label label-info",
-		running:    "label label-success",
-		blocked:    "label label-danger",
-		terminated: "label label-default"
+		created:    "badge badge-primary",
+		waiting:    "badge badge-secondary",
+		running:    "badge badge-success",
+		blocked:    "badge badge-danger",
+		terminated: "badge badge-dark",
+		updated:    "badge badge-info",
 	};
 	try {
 		var r = demo_status_list[status];
@@ -133,17 +134,17 @@ function koViewModel() {
 }
 
 // ENTRYPOINT //
-$(function(){
+document.addEventListener("DOMContentLoaded", function() {
 	var vm = new koViewModel();
 	ko.applyBindings(vm);
+	$.getJSON("<%= @api_endpoint_path %>")
+	.done(function(data) { vm.items(data); })
+	.fail(function(err) { console.debug(err); });
 
 	setInterval(function() {
-		$.get("<%= @api_endpoint_path %>")
-		.done(function(data) {
-			vm.items(data);
-		}).fail(function(err) {
-			console.debug(err);
-		});
+		$.getJSON("<%= @api_endpoint_path %>")
+		.done(function(data) { vm.items(data); })
+		.fail(function(err) { console.debug(err); });
 	}, 3000);
 });
 </script>
