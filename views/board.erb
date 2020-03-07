@@ -28,7 +28,10 @@
       <td data-bind="text: iid"></td>
       <td><span data-bind="css: demo_helper_css($data.status), text: status"></span></td>
       <td data-bind="text: created_at"></td>
-      <td data-bind="text: updated_at"></td>
+      <td>
+        <span data-bind="text: updated_at"></span>
+        (<span data-bind="text: moment(new Date(updated_at)).locale('ja').fromNow()"></span>)
+      </td>
       <td data-bind="text: JSON.stringify(annotation)"></td>
     </tr>
   </tbody>
@@ -53,7 +56,7 @@ Show
 <div class="row collapse" id="api-reference">
 <div class="col-md-12">
 <h4>GET <%= @api_endpoint_uri %></h4>
-<pre>
+<pre><code>
 $ curl -s <%= @api_endpoint_uri %> | jq .
 [
   {
@@ -75,7 +78,7 @@ $ curl -s <%= @api_endpoint_uri %> | jq .
     }
   }
 ]
-</pre>
+</code></pre>
 
 <h4>POST <%= @api_endpoint_uri %></h4>
 <p>Create and Update</p>
@@ -84,7 +87,7 @@ $ curl -s <%= @api_endpoint_uri %> | jq .
   <li><code>status</code>: </li>
   <li><code>annotation</code>: </li>
 </ul>
-<pre>
+<pre><code>
 ## Simple;
 $ curl -X POST -d 'iid=pc01' <%= @api_endpoint_uri %>
 
@@ -93,58 +96,58 @@ $ curl -X POST -d 'iid=pc01' -d 'status=running' -d 'annotation={"asset_id":"A01
 
 ## Using QueryString
 $ curl -X POST -d 'status=running' '<%= @api_endpoint_uri %>?iid=pc01'
-</pre>
+</code></pre>
 
 <h4>DELETE <%= @api_endpoint_uri %></h4>
 <ul>
   <li><code>iid</code>(*): </li>
 </ul>
-<pre>
+<pre><code>
 ## Simple;
 $ curl -X DELETE -d 'iid=pc01' <%= @api_endpoint_uri %>
 
 ## Using QueryString
 $ curl -X DELETE '<%= @api_endpoint_uri %>?iid=pc01'
-</pre>
+</code></pre>
 </div>
 </div>
 
 <script>
 /* Markup status css class using Bootstrap for demo:data */
 function demo_helper_css(status) {
-	var demo_status_list = {
-		created:    "badge badge-primary",
-		waiting:    "badge badge-secondary",
-		running:    "badge badge-success",
-		blocked:    "badge badge-danger",
-		terminated: "badge badge-dark",
-		updated:    "badge badge-info",
-	};
-	try {
-		var r = demo_status_list[status];
-	} catch(e) {
-		var r = "";
-	}
-	return r;
+    var demo_status_list = {
+        created:    "badge badge-primary",
+        waiting:    "badge badge-secondary",
+        running:    "badge badge-success",
+        blocked:    "badge badge-danger",
+        terminated: "badge badge-dark",
+        updated:    "badge badge-info",
+    };
+    try {
+        var r = demo_status_list[status];
+    } catch(e) {
+        var r = "";
+    }
+    return r;
 }
 
 function koViewModel() {
     var self = this;
-	self.items = ko.observableArray();
+    self.items = ko.observableArray();
 }
 
 // ENTRYPOINT //
 document.addEventListener("DOMContentLoaded", function() {
-	var vm = new koViewModel();
-	ko.applyBindings(vm);
-	$.getJSON("<%= @api_endpoint_path %>")
-	.done(function(data) { vm.items(data); })
-	.fail(function(err) { console.debug(err); });
+    var vm = new koViewModel();
+    ko.applyBindings(vm);
+    $.getJSON("<%= @api_endpoint_path %>")
+    .done(function(data) { vm.items(data); })
+    .fail(function(err) { console.debug(err); });
 
-	setInterval(function() {
-		$.getJSON("<%= @api_endpoint_path %>")
-		.done(function(data) { vm.items(data); })
-		.fail(function(err) { console.debug(err); });
-	}, 3000);
+    setInterval(function() {
+        $.getJSON("<%= @api_endpoint_path %>")
+        .done(function(data) { vm.items(data); })
+        .fail(function(err) { console.debug(err); });
+    }, 3000);
 });
 </script>
