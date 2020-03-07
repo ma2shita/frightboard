@@ -55,6 +55,14 @@ class FrightBoard::API < Grape::API
       present r, with: API::Entities::Status
     end
 
+    delete do
+      d_params = declared(params)
+      Board.where(board_id: params[:board_id]).delete
+      Item.where(board_id: params[:board_id]).delete
+      status 202
+      {response: :accepted}
+    end
+
     namespace ':iid' do
       params do
         requires :iid, type: String, desc: "Identify Key (Unique on System)"

@@ -15,6 +15,7 @@
     <tr>
       <td><a data-bind="text: board_id, attr: {href: board_id}"></a></td>
       <td data-bind="text: created_at"></td>
+      <td><button class="btn btn-danger delete" type="button" data-bind="attr: {board_id: board_id}">DELETE</td>
     </tr>
   </tbody>
 </table>
@@ -23,19 +24,31 @@
 /* Markup status css class using Bootstrap for demo:data */
 function koViewModel() {
     var self = this;
-	self.items = ko.observableArray();
+  self.items = ko.observableArray();
 }
 
 // ENTRYPOINT //
 $(function(){
-	var vm = new koViewModel();
-	ko.applyBindings(vm);
+  var vm = new koViewModel();
+  ko.applyBindings(vm);
 
-	$.getJSON("/api/v1")
-	.done(function(data) {
-		vm.items(data);
-	}).fail(function(err) {
-		console.debug(err);
-	});
+  $.getJSON("/api/v1")
+  .done(function(data) {
+    vm.items(data);
+    let es = document.getElementsByClassName('delete');
+    for (var i = 0; i < es.length; i++) {
+      es[i].addEventListener('click', function() {
+        const api_endpoint = `/api/v1/${this.getAttribute('board_id')}`;
+        console.log(`DELETE ${api_endpoint}`)
+        $.ajax(api_endpoint, {"method": "DELETE",
+          statusCode: {
+            202: location.reload()
+          }
+        });
+      });
+    }
+  }).fail(function(err) {
+    console.debug(err);
+  });
 });
 </script>
