@@ -97,16 +97,12 @@ $ curl -X POST -d 'iid=pc01' -d 'status=running' -d 'annotation={"asset_id":"A01
 $ curl -X POST -d 'status=running' '<%= @api_endpoint_uri %>?iid=pc01'
 </code></pre>
 
-<h5>DELETE <%= @api_endpoint_uri %></h5>
+<h5>DELETE <%= @api_endpoint_uri %>/IID</h5>
 <ul>
   <li><code>iid</code>(*): </li>
 </ul>
 <pre><code>
-## Simple;
-$ curl -X DELETE -d 'iid=pc01' <%= @api_endpoint_uri %>
-
-## Using QueryString
-$ curl -X DELETE '<%= @api_endpoint_uri %>?iid=pc01'
+$ curl -X DELETE <%= @api_endpoint_uri %>/pc01
 </code></pre>
 
 </div>
