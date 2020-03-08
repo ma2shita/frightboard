@@ -19,6 +19,10 @@ module Me
   def test?
     Me.env == :test
   end
+
+  def version
+    "1.1.0"
+  end
 end
 
 require "bundler"
