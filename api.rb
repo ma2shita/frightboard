@@ -49,9 +49,12 @@ class FrightBoard::API < Grape::API
       {response: r}
     end
 
+    params do
+      optional :order, type: String, values: ['asc', 'desc'], default: "asc", desc: "Sort order by created_at"
+    end
     get do
       d_params = declared(params)
-      r = Item.where(board_id: params[:board_id]).all
+      r = Item.where(board_id: params[:board_id]).order(Sequel.send(d_params[:order], :created_at)).all
       present r, with: API::Entities::Status
     end
 

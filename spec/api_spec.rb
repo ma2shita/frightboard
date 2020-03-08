@@ -102,6 +102,34 @@ describe FrightBoard::API do
       its(:body) { should be_json_as response }
     end
 
+    context "get(order)" do
+      let(:list) do
+        [
+          {board_id: "BOARD_ID1", iid: "XXXX1", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json},
+          {board_id: "BOARD_ID1", iid: "XXXX2", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json},
+          {board_id: "BOARD_ID1", iid: "XXXX1", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json}, # update
+          {board_id: "BOARD_ID2", iid: "XXXX1", status: "void"},
+        ]
+      end
+      before {
+        Board.truncate
+        Board.create(board_id: "BOARD_ID1")
+        Board.create(board_id: "BOARD_ID2")
+        Item.truncate
+        list.each do |i|
+          Helper::ItemModel.upsert(*i.values)
+        end
+      }
+      subject { get("/api/v1/BOARD_ID1", {order: "desc"}) }
+      let(:response) do
+        [
+          {board_id: "BOARD_ID1", iid: "XXXX2", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json, created_at: String, updated_at: String},
+          {board_id: "BOARD_ID1", iid: "XXXX1", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json, created_at: String, updated_at: String},
+        ]
+      end
+      its(:body) { should be_json_as response }
+    end
+
     context "delete" do
       let(:list) do
         [

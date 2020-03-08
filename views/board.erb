@@ -14,7 +14,7 @@
 <table class="table table-striped" id="main">
   <thead>
     <tr>
-      <th>#</th>
+      <!-- th>#</th -->
       <th>IID</th>
       <th>STATUS</th>
       <th>Created at</th>
@@ -24,7 +24,7 @@
   </thead>
   <tbody data-bind="foreach: items">
     <tr>
-      <td data-bind="text: $index()+1"></td>
+      <!-- td data-bind="text: $index()+1"></td -->
       <td data-bind="text: iid"></td>
       <td><span data-bind="css: demo_helper_css($data.status), text: status"></span></td>
       <td data-bind="text: created_at"></td>
@@ -140,12 +140,12 @@ function koViewModel() {
 document.addEventListener("DOMContentLoaded", function() {
     var vm = new koViewModel();
     ko.applyBindings(vm);
-    $.getJSON("<%= @api_endpoint_path %>")
+    $.getJSON("<%= @api_endpoint_path %>?order=<%= @order %>")
     .done(function(data) { vm.items(data); })
     .fail(function(err) { console.debug(err); });
 
     setInterval(function() {
-        $.getJSON("<%= @api_endpoint_path %>")
+        $.getJSON("<%= @api_endpoint_path %>?order=<%= @order %>")
         .done(function(data) { vm.items(data); })
         .fail(function(err) { console.debug(err); });
     }, 3000);
