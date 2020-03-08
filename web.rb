@@ -9,6 +9,9 @@ class FrightBoard::Web < Sinatra::Base
   end
 
   get "/" do
+    scheme = request.secure? ? 'https' : 'http'
+    @api_endpoint_path = "/api/v1"
+    @api_endpoint_uri = "#{scheme}://#{request.env['HTTP_HOST']}#{@api_endpoint_path}"
     erb :index
   end
 

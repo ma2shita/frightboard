@@ -47,13 +47,14 @@
 
 <hr>
 
-<h3>API Reference</h3>
+<h4>API Reference</h4>
 
 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#api-reference" aria-expanded="false" aria-controls="api-reference">Show</button>
 
 <div class="row collapse" id="api-reference">
 <div class="col-md-12">
-<h4>GET <%= @api_endpoint_uri %></h4>
+
+<h5>GET <%= @api_endpoint_uri %></h5>
 <pre><code>
 $ curl -s <%= @api_endpoint_uri %> | jq .
 [
@@ -78,7 +79,7 @@ $ curl -s <%= @api_endpoint_uri %> | jq .
 ]
 </code></pre>
 
-<h4>POST <%= @api_endpoint_uri %></h4>
+<h5>POST <%= @api_endpoint_uri %></h5>
 <p>Create and Update</p>
 <ul>
   <li><code>iid</code>(*): </li>
@@ -96,7 +97,7 @@ $ curl -X POST -d 'iid=pc01' -d 'status=running' -d 'annotation={"asset_id":"A01
 $ curl -X POST -d 'status=running' '<%= @api_endpoint_uri %>?iid=pc01'
 </code></pre>
 
-<h4>DELETE <%= @api_endpoint_uri %></h4>
+<h5>DELETE <%= @api_endpoint_uri %></h5>
 <ul>
   <li><code>iid</code>(*): </li>
 </ul>
@@ -107,6 +108,7 @@ $ curl -X DELETE -d 'iid=pc01' <%= @api_endpoint_uri %>
 ## Using QueryString
 $ curl -X DELETE '<%= @api_endpoint_uri %>?iid=pc01'
 </code></pre>
+
 </div>
 </div>
 

@@ -20,6 +20,43 @@
   </tbody>
 </table>
 
+<h4>API Reference</h4>
+
+<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#api-reference" aria-expanded="false" aria-controls="api-reference">Show</button>
+
+<div class="row collapse" id="api-reference">
+<div class="col-md-12">
+
+<h5>GET <%= @api_endpoint_uri %></h5>
+<pre><code>
+$ curl -s <%= @api_endpoint_uri %> | jq .
+[
+  {
+    "board_id": "1236500887573106689",
+    "created_at": "2020-03-08 12:55:59 +0900"
+  },
+  {
+    "board_id": "1236499785066745857",
+    "created_at": "2020-03-08 12:51:36 +0900"
+  }
+]
+</code></pre>
+
+<h5>POST <%= @api_endpoint_uri %></h5>
+<pre><code>
+$ curl -X POST -d '' <%= @api_endpoint_uri %>
+"An alternate resource is located at /1236501852808286209."
+</code></pre>
+
+<h5>DELETE <%= @api_endpoint_uri %>/BOARD_ID</h5>
+<pre><code>
+$ curl -X DELETE <%= @api_endpoint_uri %>/BOARD_ID
+{"response":"accepted"}
+</code></pre>
+
+</div>
+</div>
+
 <script>
 /* Markup status css class using Bootstrap for demo:data */
 function koViewModel() {
