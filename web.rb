@@ -18,7 +18,7 @@ class FrightBoard::Web < Sinatra::Base
   get "/:board_id" do
     raise Sinatra::NotFound if Board.where(board_id: params[:board_id]).empty?
     @board_id = params[:board_id]
-    @order = params[:order] || "asc"
+    @order = params[:order_by_updated_at] || "desc"
     scheme = request.secure? ? 'https' : 'http'
     @api_endpoint_path = "/api/v1/#{@board_id}"
     @api_endpoint_uri = "#{scheme}://#{request.env['HTTP_HOST']}#{@api_endpoint_path}"

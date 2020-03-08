@@ -136,12 +136,12 @@ function koViewModel() {
 document.addEventListener("DOMContentLoaded", function() {
     var vm = new koViewModel();
     ko.applyBindings(vm);
-    $.getJSON("<%= @api_endpoint_path %>?order=<%= @order %>")
+    $.getJSON("<%= @api_endpoint_path %>?order_by_updated_at=<%= @order %>")
     .done(function(data) { vm.items(data); })
     .fail(function(err) { console.debug(err); });
 
     setInterval(function() {
-        $.getJSON("<%= @api_endpoint_path %>?order=<%= @order %>")
+        $.getJSON("<%= @api_endpoint_path %>?order_by_updated_at=<%= @order %>")
         .done(function(data) { vm.items(data); })
         .fail(function(err) { console.debug(err); });
     }, 3000);

@@ -107,7 +107,8 @@ describe FrightBoard::API do
         [
           {board_id: "BOARD_ID1", iid: "XXXX1", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json},
           {board_id: "BOARD_ID1", iid: "XXXX2", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json},
-          {board_id: "BOARD_ID1", iid: "XXXX1", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json}, # update
+          {board_id: "BOARD_ID1", iid: "XXXX3", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:03"}.to_json},
+          {board_id: "BOARD_ID1", iid: "XXXX2", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json}, # update
           {board_id: "BOARD_ID2", iid: "XXXX1", status: "void"},
         ]
       end
@@ -120,11 +121,12 @@ describe FrightBoard::API do
           Helper::ItemModel.upsert(*i.values)
         end
       }
-      subject { get("/api/v1/BOARD_ID1", {order: "desc"}) }
+      subject { get("/api/v1/BOARD_ID1", {order_by_updated_at: "desc"}) }
       let(:response) do
         [
-          {board_id: "BOARD_ID1", iid: "XXXX2", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json, created_at: String, updated_at: String},
-          {board_id: "BOARD_ID1", iid: "XXXX1", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json, created_at: String, updated_at: String},
+          {board_id: "BOARD_ID1", iid: "XXXX2", status: "running_ansible", annotation: {mac_address:"AA:BB:CC:00:11:02"}.to_json, created_at: String, updated_at: String},
+          {board_id: "BOARD_ID1", iid: "XXXX3", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:03"}.to_json, created_at: String, updated_at: String},
+          {board_id: "BOARD_ID1", iid: "XXXX1", status: "donwloading",     annotation: {mac_address:"AA:BB:CC:00:11:01"}.to_json, created_at: String, updated_at: String},
         ]
       end
       its(:body) { should be_json_as response }
